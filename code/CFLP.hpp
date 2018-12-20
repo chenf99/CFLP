@@ -31,7 +31,11 @@ struct customer {
     }
 };
 
-void io(int i, int& facilityNum, int& costomerNum, vector<facility>& facilities, vector<customer>& costomers);
+void readData(int i, int& facilityNum, int& costomerNum, vector<facility>& facilities, vector<customer>& costomers);
+
+int readPrevResult(int i);
+
+void writeNewResult(int i, string result);
 
 int greedy(vector<bool>& open, vector<int>& assign, vector<facility>& facilities, vector<customer>& customers);
 

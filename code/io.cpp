@@ -1,7 +1,7 @@
 #include "CFLP.hpp"
 using namespace std;
 
-void io(int i, int& facilityNum, int& customerNum, vector<facility>& facilities, vector<customer>& customers) {
+void readData(int i, int& facilityNum, int& customerNum, vector<facility>& facilities, vector<customer>& customers) {
     string fileName = "Instances/p" + std::to_string(i);
     fstream infile(fileName, ios::in);
     if (!infile) {
@@ -32,4 +32,19 @@ void io(int i, int& facilityNum, int& customerNum, vector<facility>& facilities,
         }
     }
     infile.close();
+}
+
+int readPrevResult(int i) {
+    string fileName = "Results/p" + std::to_string(i);
+    fstream infile(fileName, ios::in);
+    if (!infile) return INT_MAX;
+    int cost;
+    infile >> cost;
+    return cost;
+}
+
+void writeNewResult(int i, string result) {
+    string fileName = "Results/p" + std::to_string(i);
+    fstream outfile(fileName, ios::out);
+    outfile << result;
 }
