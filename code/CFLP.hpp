@@ -4,13 +4,17 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <time.h>
+#include <limits.h>
+#include <string.h>
+#include <string>
 using std::cout;
 using std::endl;
 using std::fstream;
 using std::vector;
+using std::string;
 
 struct facility {
-    bool isOpen;
     int capacity;
     int openCost;
     facility(int capacity, int openCost) {
@@ -27,6 +31,8 @@ struct customer {
     }
 };
 
-void io(int& facilityNum, int& costomerNum, vector<facility>& facilities, vector<customer>& costomers);
+void io(int i, int& facilityNum, int& costomerNum, vector<facility>& facilities, vector<customer>& costomers);
+
+int greedy(vector<bool>& open, vector<int>& assign, vector<facility>& facilities, vector<customer>& customers);
 
 #endif

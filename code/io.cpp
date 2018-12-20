@@ -1,8 +1,9 @@
 #include "CFLP.hpp"
 using namespace std;
 
-void io(int& facilityNum, int& customerNum, vector<facility>& facilities, vector<customer>& customers) {
-    fstream infile("Instances/p1", ios::in);
+void io(int i, int& facilityNum, int& customerNum, vector<facility>& facilities, vector<customer>& customers) {
+    string fileName = "Instances/p" + std::to_string(i);
+    fstream infile(fileName, ios::in);
     if (!infile) {
         cout << "open file error!" << endl;
         exit(1);
