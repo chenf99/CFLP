@@ -5,7 +5,7 @@
 * 每次进行一个分配操作，给一个customer分配一个facility
 * 选取的标准：
 * 1.首先facility容量要满足,customer未分配
-* 2.性价比：(opencost + assigncost) / demand最小
+* 2.性价比：opencost + (assigncost / demand)最小
 * 已打开的facility的opencost为0
 */
 
