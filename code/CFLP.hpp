@@ -35,7 +35,7 @@ void readData(int i, int& facilityNum, int& costomerNum, vector<facility>& facil
 
 int readPrevResult(int i);
 
-void writeNewResult(int i, string result);
+void writeNewResult(int i, string result, bool greedy);
 
 int greedy(vector<bool>& open, vector<int>& assign, vector<facility>& facilities, vector<customer>& customers);
 

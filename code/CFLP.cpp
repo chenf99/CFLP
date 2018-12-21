@@ -40,7 +40,7 @@ int main() {
             for (int i = 0; i < facilityNum; ++i) writeStr += std::to_string((int)open[i]) + " ";
             writeStr += "\n";
             for (int i = 0; i < customerNum; ++i) writeStr += std::to_string(assign[i]) + " ";
-            writeNewResult(i, writeStr);
+            writeNewResult(i, writeStr, true);
         }
     }
     return 0;

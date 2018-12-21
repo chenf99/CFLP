@@ -43,8 +43,10 @@ int readPrevResult(int i) {
     return cost;
 }
 
-void writeNewResult(int i, string result) {
-    string fileName = "Results/p" + std::to_string(i);
+void writeNewResult(int i, string result, bool greedy) {
+    string fileName = "Results/";
+    fileName += greedy ? "greedy/p" : "SA/p";
+    fileName += std::to_string(i);
     fstream outfile(fileName, ios::out);
     outfile << result;
 }

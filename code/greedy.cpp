@@ -19,11 +19,11 @@ int greedy(vector<bool>& open, vector<int>& assign, vector<facility>& facilities
             if (assign[i] != -1) continue;      //该customer已被分配过
             for (int j = 0; j < facilities.size(); ++j) {
                 //更换当前最优操作
-                if (((customers[i].assigncost[j] + facilities[j].openCost) / customers[i].demand) < performance && 
+                if ((customers[i].assigncost[j] + facilities[j].openCost / customers[i].demand) < performance && 
                     facilities[j].capacity >= customers[i].demand) {
                     select_i = i;
                     select_j = j;
-                    performance = ((customers[i].assigncost[j] + facilities[j].openCost) / customers[i].demand);
+                    performance = customers[i].assigncost[j] + facilities[j].openCost / customers[i].demand;
                     currAssignCost = customers[i].assigncost[j] + facilities[j].openCost;
                 }
             }
