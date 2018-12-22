@@ -16,9 +16,9 @@ bool isValidSolution(const vector<bool>&, const vector<int>&, const vector<facil
 void randomInitSolution(vector<bool>&, vector<int>&, vector<facility>&, const vector<customer>&);
 
 int SA(int i, vector<bool>& open, vector<int>& assign, vector<facility>& facilities, vector<customer>& customers) {
-    double T = 1000;        //初温
+    double T = 10000;        //初温
     double T_end = 0.0001;  //末温
-    int count = 1000;       //每个温度迭代次数
+    int count = 500;       //每个温度迭代次数
 
     //随机生成初始解
     randomInitSolution(open, assign, facilities, customers);
@@ -35,7 +35,7 @@ int SA(int i, vector<bool>& open, vector<int>& assign, vector<facility>& facilit
         if (open[i] == true) currCost += currFacilities[i].openCost;
     }
     while (T > T_end) {
-        count = 100;
+        count = 500;
         while (count--) {
             //生成新解
             int select = rand() % 2;
@@ -99,8 +99,8 @@ int SA(int i, vector<bool>& open, vector<int>& assign, vector<facility>& facilit
                     for (int i = 0; i < customers.size(); ++i) {
                         cost += customers[i].assigncost[tmpAssign[i]];
                     }
-                    for (int i = 0; i < open.size(); ++i) {
-                        if (open[i] == true) cost += tmpFacilities[i].openCost;
+                    for (int i = 0; i < tmpOpen.size(); ++i) {
+                        if (tmpOpen[i] == true) cost += tmpFacilities[i].openCost;
                     }
                     int dE = cost - currCost;
                     if (dE < 0) {//直接接受好的新解
@@ -142,10 +142,9 @@ bool isValidSolution(const vector<bool>& open, const vector<int>& assign, const 
 
 void randomInitSolution(vector<bool>& open, vector<int>& assign, vector<facility>& facilities, const vector<customer>& customers) {
     srand(time(NULL));
-    while (true) {
-        vector<facility> tmpFacilities(facilities);
-        vector<bool> tmpOpen(open);
-        for (int i = 0; i < assign.size(); ++i) {
+    int cust_select = 0;
+    while (true) {    
+        /* for (int i = 0; i < assign.size(); ++i) {
             //生成0到open.size() - 1之间的随机数
             assign[i] = rand() % open.size();
             tmpOpen[assign[i]] = true;
@@ -155,6 +154,33 @@ void randomInitSolution(vector<bool>& open, vector<int>& assign, vector<facility
             open = tmpOpen;
             facilities = tmpFacilities;
             break;
+        } */
+        //随机打开一个工厂，给这个工厂分配顾客
+        //直到给这个工厂分配完顾客，再选取下一个工厂
+        //减少打开工厂的费用
+        int open_select = rand() % open.size();
+        open[open_select] = true;
+        while (facilities[open_select].leftCapa >= customers[cust_select].demand) {
+            facilities[open_select].leftCapa -= customers[cust_select].demand;
+            assign[cust_select] = open_select;
+            cust_select++;
+            if (cust_select == customers.size()) break;
         }
+        if (cust_select == customers.size()) break;//全都分配完
+    }
+    //验证解的有效性
+    for (auto i : assign) {
+        if (i == -1 || open[i] == false) {
+            cout << "error init solution" << endl;
+            exit(1);
+        }
+    }
+    int count = 0;
+    for (int i = 0; i < facilities.size(); i++) {
+        if (facilities[i].leftCapa < 0) {
+            cout << "error init solution" << endl;
+            exit(1);
+        }
+        if (open[i] == true) count += facilities[i].openCost;
     }
 }
