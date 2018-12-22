@@ -21,11 +21,13 @@ int main() {
                 if (j % 10 == 9) cout << endl;
             }
         } */
+        bool isGreedy = false;//使用贪心算法还是SA算法
         vector<bool> open(facilityNum, false);
         vector<int> assign(customerNum, -1);
         clock_t start = clock();
-        int totalcost = greedy(open, assign, facilities, customers);
+        int totalcost = isGreedy ? greedy(open, assign, facilities, customers) : SA(i, open, assign, facilities, customers);
         clock_t end = clock();
+        //输出结果
         cout << "P" + std::to_string(i) + " result:" << endl;
         cout << "Total cost: " << totalcost << endl;
         cout << "Open status: " << endl;
@@ -34,13 +36,14 @@ int main() {
         for (int i = 0; i < customerNum; ++i) cout << assign[i] << " ";
         cout <<"\nRunning Time : "<< (end - start) * 1.0 / CLOCKS_PER_SEC * 1000 << "ms\n" << endl;
 
-        int previousCost = readPrevResult(i);
+        //记录历史最优解
+        int previousCost = readPrevResult(i, isGreedy);
         if (previousCost > totalcost) {
             string writeStr = std::to_string(totalcost) + "\n";
             for (int i = 0; i < facilityNum; ++i) writeStr += std::to_string((int)open[i]) + " ";
             writeStr += "\n";
             for (int i = 0; i < customerNum; ++i) writeStr += std::to_string(assign[i]) + " ";
-            writeNewResult(i, writeStr, true);
+            writeNewResult(i, writeStr, isGreedy);
         }
     }
     return 0;

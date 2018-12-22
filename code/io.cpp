@@ -1,6 +1,7 @@
 #include "CFLP.hpp"
 using namespace std;
 
+//读取初始数据
 void readData(int i, int& facilityNum, int& customerNum, vector<facility>& facilities, vector<customer>& customers) {
     string fileName = "Instances/p" + std::to_string(i);
     fstream infile(fileName, ios::in);
@@ -34,8 +35,11 @@ void readData(int i, int& facilityNum, int& customerNum, vector<facility>& facil
     infile.close();
 }
 
-int readPrevResult(int i) {
-    string fileName = "Results/p" + std::to_string(i);
+//读取历史最优解
+int readPrevResult(int i, bool greedy) {
+    string fileName = "Results/";
+    fileName += greedy ? "greedy/p" : "SA/p";
+    fileName += std::to_string(i);
     fstream infile(fileName, ios::in);
     if (!infile) return INT_MAX;
     int cost;
@@ -43,6 +47,7 @@ int readPrevResult(int i) {
     return cost;
 }
 
+//记录当前最优解
 void writeNewResult(int i, string result, bool greedy) {
     string fileName = "Results/";
     fileName += greedy ? "greedy/p" : "SA/p";
